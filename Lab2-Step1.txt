@@ -1,0 +1,33 @@
+public class RatNum {
+    int denominator=0; //täljare
+    int numerator=0; //nämnare
+
+    public static int gcd(int m, int n) {
+        int gcd=0;
+        System.out.println("m:"+m+" n:"+n);
+        if(m==0 && n==0) {
+            throw  new  IllegalArgumentException("Both faktors can not be zero");
+        }
+        m=java.lang.Math.abs(m);
+        n=java.lang.Math.abs(n);
+        for(int i=1;i<=m && i<=n; i++) {
+            if(n%i==0 && m%i==0) {
+            gcd=i;
+            }
+        }
+        System.out.println("gcd:"+gcd);
+        return gcd;
+    }
+
+    public static void ratnum(int numerator,int denominator,int gcd){
+        numerator=numerator/gcd;
+        denominator=denominator/gcd;
+        System.out.println(numerator+"/"+denominator);
+    }
+    public static void main(String[] args) {
+        int gcd;
+        gcd=gcd(20,38);
+        ratnum(25,30,gcd);
+
+    }
+}

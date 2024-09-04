@@ -1,0 +1,162 @@
+public class RatNum {
+    int denominator; //täljare
+    int numerator; //nämnare
+
+    public static int gcd(int m, int n) {
+        int gcd = 0;
+        //System.out.println("m:" + m + " n:" + n);
+        if (m == 0 && n == 0) {
+            throw new IllegalArgumentException("Both faktors can not be zero");
+        }
+        else if(m==0 && n!=0){
+            gcd = n;
+        }
+        else if(n==0 && m!=0){
+            gcd = m;
+        }
+        else {
+            m = java.lang.Math.abs(m);
+            n = java.lang.Math.abs(n);
+            for (int i = 1; i <= m && i <= n; i++) {
+                if (n % i == 0 && m % i == 0) {
+                    gcd = i;
+                }
+            }
+        }
+        //System.out.println("gcd:" + gcd);
+        return gcd;
+    }
+
+    //Steg 2
+    public RatNum(int numerator, int denominator) {
+        if (denominator == 0) {
+            throw  new  NumberFormatException("Denominator = 0");
+        }
+        int gcd = gcd(numerator, denominator);
+        this.numerator = numerator / gcd;
+        this.denominator = denominator / gcd;
+        if (this.denominator < 0 && this.numerator<0) {
+            this.numerator *= -1;
+            this.denominator *= -1;
+        }
+        else if(this.denominator < 0 && this.numerator>0) {
+            this.numerator *= -1;
+            this.denominator *= -1;
+        }
+        //System.out.println(this.numerator + "/" + this.denominator);
+    }
+
+
+    //konstruktor, initierar till  0/1
+    public RatNum() { //coment for me: ALT: this(0, 1);
+        this.numerator = 0;
+        this.denominator = 1;
+    }
+
+    // Konstruktor, till a/1
+    public RatNum(int a) { //coment for me: ALT: this(a, 1);
+        this.numerator = a;
+        this.denominator = 1;
+    }
+
+    // Kopieringskonstruktor
+    public RatNum(RatNum r) { //ALT:this(r.numerator, r.denominator);
+        this.numerator = r.numerator;
+        this.denominator = r.denominator;
+    }
+
+    // Metod för att hämta täljaren
+    public int getNumerator() {
+        return this.numerator;
+    }
+
+    // Metod för att hämta nämnaren
+    public int getDenominator() {
+        return this.denominator;
+    }
+    //Steg 3
+    // toString method, Int to String
+    public String toString() {
+        if (denominator == 1) {
+            return Integer.toString(numerator);
+        } else {
+            return numerator + "/" + denominator;
+        }
+    }
+
+    // Klassmetod,ett RatNum från en sträng
+    public static RatNum parse(String s) {
+        if (s.matches("-?\\d+/-?\\d+")) { //For me: ALT:if (s.contains("/"))
+            String[] parts = s.split("/");
+            int num = Integer.parseInt(parts[0]);
+            int den = Integer.parseInt(parts[1]);
+            return new RatNum(num, den);
+        } else if (s.matches("-?\\d+")) {
+            int num = Integer.parseInt(s);
+            return new RatNum(num);
+        } else {
+            throw new NumberFormatException("Invalid format: " + s);
+        }
+    }
+    // Konstruktor, parameter String
+    public RatNum(String s) {
+        this(parse(s));
+    }
+
+    // Metod,jämföra två RatNum-objekt
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        RatNum other = (RatNum) obj;
+        return numerator == other.numerator && denominator == other.denominator;
+    }
+
+
+    // Metod,jämföra om det aktuella talet<ett annat RatNum
+    public boolean lessThan(RatNum r) {
+        return (numerator * r.denominator) < (r.numerator * denominator);
+    }
+
+    // Metod,addition av två RatNum-objekt
+    public RatNum add(RatNum r) {
+        int newNum = (numerator * r.denominator) + (r.numerator * denominator);
+        int newDen = denominator * r.denominator;
+        return new RatNum(newNum, newDen);
+    }
+
+    // Metod,subtraktion av två RatNum-objekt
+    public RatNum sub(RatNum r) {
+        int newNum = (numerator * r.denominator) - (r.numerator * denominator);
+        int newDen = denominator * r.denominator;
+        return new RatNum(newNum, newDen);
+    }
+
+    // Metod,multiplikation av två RatNum-objekt (mul)
+    public RatNum mul(RatNum r) {
+        int newNum = numerator * r.numerator;
+        int newDen = denominator * r.denominator;
+        return new RatNum(newNum, newDen);
+    }
+
+    // Metod,division av två RatNum-objekt (div)
+    public RatNum div(RatNum r) {
+        int newNum = numerator * r.denominator;
+        int newDen = denominator * r.numerator;
+        return new RatNum(newNum, newDen);
+    }
+
+    // Metod,avrunda och returnera som heltal (toIntString)
+    public String toIntString() {
+        int result = numerator / denominator;
+        return Integer.toString(result);
+    }
+
+    public static void main (String[]args){
+    }
+
+
+}

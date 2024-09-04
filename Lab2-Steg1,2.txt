@@ -1,0 +1,75 @@
+public class RatNum {
+    int denominator = 0; //täljare
+    int numerator = 0; //nämnare
+
+    public static int gcd(int m, int n) {
+        int gcd = 0;
+        System.out.println("m:" + m + " n:" + n);
+        if (m == 0 && n == 0) {
+            throw new IllegalArgumentException("Both faktors can not be zero");
+        }
+        else if(m==0 && n!=0){
+            gcd = n;
+        }
+        else if(n==0 && m!=0){
+            gcd = m;
+        }
+        else {
+            m = java.lang.Math.abs(m);
+            n = java.lang.Math.abs(n);
+            for (int i = 1; i <= m && i <= n; i++) {
+                if (n % i == 0 && m % i == 0) {
+                    gcd = i;
+                }
+            }
+        }
+        System.out.println("gcd:" + gcd);
+        return gcd;
+    }
+
+    public RatNum(int numerator, int denominator) {
+        int gcd = gcd(numerator, denominator);
+        if (this.denominator < 0) {
+            this.numerator *= -1;
+            this.denominator *= -1;
+        }
+        this.numerator = numerator / gcd;
+        this.denominator = denominator / gcd;
+        System.out.println(numerator + "/" + denominator);
+    }
+
+    //Steg 2
+    //konstruktor, initierar till  0/1
+    public RatNum() { //coment for me: ALT: this(0, 1);
+        this.numerator = 0;
+        this.denominator = 1;
+    }
+
+    // Konstruktor, till a/1
+    public RatNum(int a) { //coment for me: ALT: this(a, 1);
+        this.numerator = a;
+        this.denominator = 1;
+    }
+
+    // Kopieringskonstruktor
+    public RatNum(RatNum r) { //ALT:this(r.numerator, r.denominator);
+        this.numerator = r.numerator;
+        this.denominator = r.denominator;
+    }
+
+    // Metod för att hämta täljaren
+    public int getNumerator() {
+        return this.numerator;
+    }
+
+    // Metod för att hämta nämnaren
+    public int getDenominator() {
+        return this.denominator;
+    }
+
+        public static void main (String[]args){
+            gcd(0, 19);
+        }
+
+
+}
